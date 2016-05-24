@@ -13,8 +13,17 @@ defmodule Formex.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
+    |> set_default_prefix
     |> cast(params, [:prefix, :name])
-    |> validate_required([:prefix, :name])
+    |> validate_required(:prefix, [:name])
     |> unique_constraint(:name)
   end
+
+  defp set_default_prefix(struct) do
+    struct
+    |> cast(%{prefix: "Mr."}, [:prefix])
+  end
+
+# |> cast(%{prefix: "Mr."}, [:prefix])
+
 end
